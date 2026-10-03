@@ -1,0 +1,39 @@
+{
+  "name": "shuncai-system",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "BASE_IMAGE": "crpi-7a6qgvce1ic8faue.cn-hangzhou.personal.cr.aliyuncs.com/qinguangrui/golang:1.20-bookworm"
+    }
+  },
+  "containerEnv": {
+    "GO111MODULE": "on",
+    "GOPROXY": "https://goproxy.cn,direct",
+    "NPM_CONFIG_REGISTRY": "https://registry.npmmirror.com",
+    "PLAYWRIGHT_DOWNLOAD_HOST": "https://npmmirror.com/mirrors/playwright",
+    "PLAYWRIGHT_BROWSERS_PATH": ".ms-playwright"
+  },
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.Go",
+        "dbaeumer.vscode-eslint",
+        "ms-playwright.playwright"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install && npx playwright install --with-deps chromium && npm test",
+  "forwardPorts": [
+    3100,
+    3210
+  ],
+  "portsAttributes": {
+    "3100": {
+      "label": "Shuncai app"
+    },
+    "3210": {
+      "label": "Print check"
+    }
+  }
+}
